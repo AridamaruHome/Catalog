@@ -7,8 +7,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Features\" />
       <Folder Include="IntegrationEvents\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="12.1.1" />
+      <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Core.API\Core.API.csproj" />
+      <ProjectReference Include="..\Core.Infrastructure\Core.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
