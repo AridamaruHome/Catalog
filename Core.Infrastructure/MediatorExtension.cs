@@ -4,19 +4,20 @@ using MediatR;
 
 namespace Core.Infrastructure;
 
-static class MediatorExtension
+public static class MediatorExtension
 {
-    public static async Task DispatchDomainEventsAsync(this IMediator mediator, WarehouseDbContext ctx)
+    public static async Task DispatchDomainEventsAsync(this IMediator mediator, WarehouseContext ctx)
     {
         var domainEntities = ctx.ChangeTracker
             .Entries<Entity>()
-            .Where(x => x.Entity.DomainEvents != null && x.Entity.DomainEvents.Any());
+            .Where(x => x.Entity is { DomainEvents: not null } && x.Entity.DomainEvents.Any());
 
-        var domainEvents = domainEntities
+        var entityEntries = domainEntities.ToList();
+        var domainEvents = entityEntries
             .SelectMany(x => x.Entity.DomainEvents)
             .ToList();
 
-        domainEntities.ToList()
+        entityEntries.ToList()
             .ForEach(entity => entity.Entity.ClearDomainEvents());
 
         foreach (var domainEvent in domainEvents)
