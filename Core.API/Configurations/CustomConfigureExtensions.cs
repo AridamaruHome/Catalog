@@ -35,9 +35,9 @@ public static class CustomConfigureExtensions
 
     public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<WarehouseDbContext>(options =>
+        services.AddDbContext<WarehouseContext>(options =>
         {
-            options.UseNpgsql(configuration.GetConnectionString(nameof(WarehouseDbContext)));
+            options.UseNpgsql(configuration.GetConnectionString(nameof(WarehouseContext)));
             options.UseLazyLoadingProxies();
         });
 
