@@ -63,8 +63,30 @@ public abstract class Entity
 
         return item.Id == Id;
     }
-    // TODO: Equals
-    // TODO: GetHashCode
-    // TODO: ==
-    // TODO: !=
+
+    public override int GetHashCode()
+    {
+        if (IsTransient())
+        {
+            return base.GetHashCode();
+        }
+
+        if (_requestedHashCode.HasValue)
+        {
+            return base.GetHashCode();
+        }
+
+        _requestedHashCode = Id.GetHashCode() ^ 31;
+        return _requestedHashCode.Value;
+    }
+
+    public static bool operator ==(Entity left, Entity right)
+    {
+        return left?.Equals(right) ?? Equals(right, null);
+    }
+
+    public static bool operator !=(Entity left, Entity right)
+    {
+        return !(left == right);
+    }
 }
