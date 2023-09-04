@@ -27,6 +27,12 @@ public abstract class Entity
         _domainEvents = _domainEvents ?? new List<INotification>();
         _domainEvents.Add(eventItem);
     }
+
+    public void RemoveDomainEvent(INotification eventItem)
+    {
+        _domainEvents?.Remove(eventItem);
+    }
+    
     // TODO: AddDomainEvent
     // TODO: RemoveDomainEvent
     // TODO: ClearDomainEvents
