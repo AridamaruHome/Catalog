@@ -1,5 +1,6 @@
 using Core.API.Behaviour;
 using Core.API.Configurations;
+using Core.Infrastructure.Idempotency;
 using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +34,8 @@ builder.Services.AddMediatR(cfg =>
     cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
     cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>));
 });
+
+builder.Services.AddScoped<IRequestManager, RequestManager>();
 
 var app = builder.Build();
 

@@ -1,4 +1,5 @@
 using System.Data;
+using Core.Domain.Aggregates.ProductAggregate;
 using Core.Domain.SeedWork;
 using Core.Infrastructure.EntityTypeConfigurations;
 using MediatR;
@@ -12,6 +13,7 @@ public class WarehouseContext : DbContext, IUnitOfWork
 {
     public const string DEFAULT_SCHEMA = "Warehouse";
 
+
     private readonly IMediator _mediator;
     private IDbContextTransaction _currentTransaction;
 
@@ -24,12 +26,15 @@ public class WarehouseContext : DbContext, IUnitOfWork
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
 
+    public DbSet<Product> Products { get; set; }
+    
     public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
     public bool HasActiveTransactions() => _currentTransaction is not null;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new ClientRequestEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductEntityConfiguration());
     }
 
     public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
