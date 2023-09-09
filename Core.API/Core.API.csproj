@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+        <PackageReference Include="MediatR" Version="12.1.1" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.10" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.3"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
@@ -26,8 +27,6 @@
       <ProjectReference Include="..\Core.Infrastructure\Core.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
+
 
 </Project>

@@ -1,3 +1,4 @@
+using Core.API.Behaviour;
 using Core.API.Configurations;
 using FluentValidation.AspNetCore;
 
@@ -25,6 +26,14 @@ builder.Services
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddRouting(options => { options.LowercaseUrls = true; });
 builder.Services.AddHealthChecks();
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
+
+    cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
+    cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>));
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -34,8 +43,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
+// app.UseAuthentication();
+// app.UseAuthorization();
 
 app.MapControllers();
 
