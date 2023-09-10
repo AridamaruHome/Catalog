@@ -1,5 +1,5 @@
-using Core.API.Extensions;
 using Core.Infrastructure.Idempotency;
+using Core.Shared.Extensions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

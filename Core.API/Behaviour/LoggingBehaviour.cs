@@ -1,4 +1,4 @@
-using Core.API.Extensions;
+using Core.Shared.Extensions;
 using MediatR;
 
 namespace Core.API.Behaviour;
