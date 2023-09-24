@@ -12,6 +12,7 @@ public class ProductEntityConfiguration : IEntityTypeConfiguration<Product>
     {
         builder.ToTable("Products", WarehouseContext.DEFAULT_SCHEMA);
         builder.HasKey(cr => cr.Id);
+        builder.HasIndex(cr => cr.ProductId);
         builder.Property(cr => cr.Name).IsRequired();
     }
 }

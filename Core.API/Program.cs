@@ -3,6 +3,7 @@ using Core.API.Behaviour;
 using Core.API.Configurations;
 using Core.Application.Commands;
 using Core.Application.Commands.CreateProduct;
+using Core.Application.Queries;
 using Core.Domain.Aggregates.ProductAggregate;
 using Core.Infrastructure.Context;
 using Core.Infrastructure.Idempotency;
@@ -52,6 +53,8 @@ builder.Services.AddSingleton<IValidator<IdentifiedCommand<CreateProductCommand,
 
 builder.Services.AddScoped<IRequestManager, RequestManager>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+builder.Services.AddScoped<IProductQueries, ProductQueries>();
 
 var app = builder.Build();
 
