@@ -29,7 +29,7 @@ public class WarehouseContext : DbContext, IUnitOfWork
     public DbSet<Product> Products { get; set; }
     
     public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
-    public bool HasActiveTransactions() => _currentTransaction is not null;
+    public bool HasActiveTransactions => _currentTransaction is not null;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -13,7 +13,7 @@ public class Product : Entity, IAggregateRoot
         string barcode,
         string imageUrl)
     {
-        ProductId = new Guid();
+        ProductId = Guid.NewGuid();
         Name = name;
         Description = description;
         Category = category;

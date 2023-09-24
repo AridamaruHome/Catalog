@@ -1,4 +1,5 @@
 using System.Net;
+using Core.Application.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Core.Application.Commands.CreateProduct;
@@ -19,5 +20,19 @@ public class ProductsController : ControllerBase
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command) => Ok(await _mediator.Send(command));
+    public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command, [FromHeader(Name = "x-requestid")] string requestId)
+    {
+        bool commandResult = false;
+        if (Guid.TryParse(requestId, out var guid) && guid != Guid.Empty)
+        {
+            var createProductCommand = new IdentifiedCommand<CreateProductCommand, bool>(command, guid);
+            commandResult = await _mediator.Send(createProductCommand);
+        }
+        
+        if (!commandResult)
+        {
+            return BadRequest();
+        }
+        return Ok();
+    }
 }

@@ -1,7 +1,9 @@
 using Core.Domain.Aggregates.ProductAggregate;
 using Core.Infrastructure.Context;
+using Core.Infrastructure.Idempotency;
 using Core.Infrastructure.Repositories;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Core.Application.Commands.CreateProduct;
 
@@ -25,5 +27,21 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 
         await _productRepository.Add(product);
         return await _productRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+    }
+}
+
+public class CancelOrderIdentifiedCommandHandler : IdentifiedCommandHandler<CreateProductCommand, bool>
+{
+    public CancelOrderIdentifiedCommandHandler(
+        IMediator mediator,
+        IRequestManager requestManager,
+        ILogger<IdentifiedCommandHandler<CreateProductCommand, bool>> logger)
+        : base(mediator, requestManager, logger)
+    {
+    }
+
+    protected override bool CreatedResultForDuplicateRequest()
+    {
+        return false;
     }
 }

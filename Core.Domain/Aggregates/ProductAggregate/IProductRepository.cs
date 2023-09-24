@@ -4,5 +4,5 @@ public interface IProductRepository : IRepository<Product>
 {
     Task Add(Product product);
     void Update(Product product);
-    Task<Product> GetById(int productId);
+    Task<Product> GetByProductId(int productId);
 }
