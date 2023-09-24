@@ -1,6 +1,7 @@
 using System.Net;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Core.Application.Commands.CreateProduct;
 
 namespace Core.API.Controllers;
 
@@ -18,8 +19,5 @@ public class ProductsController : ControllerBase
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> CreateProduct([FromBody] string name)
-    {
-        return Ok();
-    }
+    public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command) => Ok(await _mediator.Send(command));
 }

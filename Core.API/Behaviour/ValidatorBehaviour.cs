@@ -1,5 +1,5 @@
-using Core.API.Extensions;
 using Core.Domain.Exceptions;
+using Core.Shared.Extensions;
 using FluentValidation;
 using MediatR;
 

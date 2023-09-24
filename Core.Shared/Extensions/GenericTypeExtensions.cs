@@ -1,4 +1,4 @@
-namespace Core.API.Extensions;
+namespace Core.Shared.Extensions;
 
 public static class GenericTypeExtensions
 {
