@@ -1,14 +1,10 @@
-using System.Reflection;
 using Core.API.Behaviour;
 using Core.API.Configurations;
 using Core.Application.Commands;
-using Core.Application.Commands.CreateProduct;
-using Core.Domain.Aggregates.ProductAggregate;
 using Core.Infrastructure.Context;
 using Core.Infrastructure.Idempotency;
-using Core.Infrastructure.Repositories;
 using FluentValidation;
-using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,31 +20,31 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddCustomServices(configuration)
     .AddCustomAuthentication(configuration)
     .AddCustomDbContext(configuration)
     .AddCustomHttpContext(configuration)
     .AddCustomSwagger(configuration);
 
-builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddRouting(options => { options.LowercaseUrls = true; });
 builder.Services.AddHealthChecks();
 
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
-    cfg.RegisterServicesFromAssemblyContaining(typeof(CreateProductCommand));
-    
+    cfg.RegisterServicesFromAssemblyContaining(typeof(IdentifiedCommand<,>));
 
-    // cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
-    // cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>));
+    cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
+    cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>));
+    cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
 });
 
-// builder.Services.AddSingleton<IValidator<CreateProductCommand>, CreateOrderCommandValidator>();
-// builder.Services.AddSingleton<IValidator<IdentifiedCommand<CreateProductCommand, bool>>, IdentifiedCommandValidator>();
+builder.Services.AddSingleton<IValidator<IdentifiedCommand<IRequest<bool>, bool>>, IdentifiedCommandValidator>();
 
 builder.Services.AddScoped<IRequestManager, RequestManager>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 
 var app = builder.Build();
 

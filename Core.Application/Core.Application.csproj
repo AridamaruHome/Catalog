@@ -7,10 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="IntegrationEvents\" />
-    </ItemGroup>
-
-    <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="11.5.1" />
       <PackageReference Include="MediatR" Version="12.1.1" />
       <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10">
@@ -22,6 +19,11 @@
     <ItemGroup>
       <ProjectReference Include="..\Core.Infrastructure\Core.Infrastructure.csproj" />
       <ProjectReference Include="..\Core.Shared\Core.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="IntegrationEvents" />
+      <Folder Include="Queries" />
     </ItemGroup>
 
 </Project>
