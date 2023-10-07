@@ -1,10 +1,10 @@
-using Core.Application.Commands.CreateProduct;
 using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace Core.Application.Commands;
 
-public class IdentifiedCommandValidator : AbstractValidator<IdentifiedCommand<CreateProductCommand, bool>>
+public class IdentifiedCommandValidator : AbstractValidator<IdentifiedCommand<IRequest<bool>, bool>>
 {
     public IdentifiedCommandValidator(ILogger<IdentifiedCommandValidator> logger)
     {

@@ -1,15 +1,9 @@
-using System.Reflection;
 using Core.API.Behaviour;
 using Core.API.Configurations;
 using Core.Application.Commands;
-using Core.Application.Commands.CreateProduct;
-using Core.Application.Queries;
-using Core.Domain.Aggregates.ProductAggregate;
 using Core.Infrastructure.Context;
 using Core.Infrastructure.Idempotency;
-using Core.Infrastructure.Repositories;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,7 +34,6 @@ builder.Services.AddHealthChecks();
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
-    cfg.RegisterServicesFromAssemblyContaining(typeof(CreateProductCommandHandler));
     cfg.RegisterServicesFromAssemblyContaining(typeof(IdentifiedCommand<,>));
 
     cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
@@ -48,13 +41,10 @@ builder.Services.AddMediatR(cfg =>
     cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
 });
 
-builder.Services.AddSingleton<IValidator<CreateProductCommand>, CreateProductCommandValidator>();
-builder.Services.AddSingleton<IValidator<IdentifiedCommand<CreateProductCommand, bool>>, IdentifiedCommandValidator>();
+builder.Services.AddSingleton<IValidator<IdentifiedCommand<IRequest<bool>, bool>>, IdentifiedCommandValidator>();
 
 builder.Services.AddScoped<IRequestManager, RequestManager>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
-builder.Services.AddScoped<IProductQueries, ProductQueries>();
 
 var app = builder.Build();
 
